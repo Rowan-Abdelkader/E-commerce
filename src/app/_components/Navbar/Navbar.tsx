@@ -1,15 +1,21 @@
 "use client";
-
 import Link from "next/link";
-import React from "react";
+import React, { useContext } from "react";
 import logo from "./../../../screens/freshcart-logo.svg";
 import Image from "next/image";
-import { signOut, useSession } from "next-auth/react";
+import { signIn, signOut, useSession } from "next-auth/react";
+import { cartContext } from "@/Context/CartContext";
+import { Badge } from "@/components/ui/badge";
 
 const Navbar = () => {
-  const {data , status} = useSession();
+  const { data, status } = useSession();
+  const { numOfCartItems } = useContext(cartContext);
 
-  signOut
+
+  console.log("Session status:", status);
+  console.log("Session data:", data);
+
+  signOut;
 
   return (
     <div className=" bg-slate-200 py-5">
@@ -17,118 +23,111 @@ const Navbar = () => {
         {/* logo && links */}
 
         <ul className="flex flex-col md:flex-row text-center gap-6">
-
-
-{status ==="authenticated" && <>
-
-  <li>
+          <li>
             <Link href="/">
               <Image src={logo} alt="Logo" />
             </Link>
           </li>
-          <li>
-            <Link href="/cart">Cart</Link>
-          </li>
-          <li>
-            <Link href="/category">Category</Link>
-          </li>
-          <li>
-            <Link href="/brands">Brands</Link>
-          </li>
 
-</>}
+          {status === "loading" && (
+            <>
+              <h1>loading</h1>
+            </>
+          )}
 
-{status  === "loading"&&<>
-
-<h1>loading</h1></>}
-
-
-{status === "unauthenticated" && (
-  <Image src={logo} alt="logo" />
-)}
-
-
-        
+          {status === "authenticated" && (
+            <>
+              <li>
+                <Link href="/category">Category</Link>
+              </li>
+              <li>
+                <Link href="/allorders">All Orders</Link>
+              </li>
+              <li>
+                <Link href="/brands">Brands</Link>
+              </li>
+			  <li>
+                <Link href="/wishlist">wish list</Link>
+              </li>
+              <li className="relative">
+                <Link href="/cart">
+                  Cart
+                  <Badge className="absolute -top-[25%] mx-1">
+                    {numOfCartItems}
+                  </Badge>
+                </Link>
+              </li>
+            </>
+          )}
         </ul>
 
-        {/*icons && buttons*/}
+        {/* icons && buttons */}
 
-        <div className="flex flex-col md:flex-row text-center gap-2">
-          <div>
-            <ul className="flex flex-row items-center gap-4">
-
-              <li>
-                <a
-                  href="https://www.instagram.com"
-                  target="_blank"
-                  rel="noopener noreferrer"
+        <div>
+          <ul className="flex flex-col md:flex-row text-center gap-2">
+            {status === "unauthenticated" && (
+              <>
+                <li className="font-semibold me-3">
+                  <Link href="/login">Login</Link>
+                </li>
+                <li className="font-semibold">
+                  <Link href="/register">Register</Link>
+                </li>
+              </>
+            )}
+            {status === "authenticated" && (
+              <li className="flex items-center gap-4">
+                <ul className="flex flex-row items-center gap-4">
+                  <li>
+                    <a
+                      href="https://www.instagram.com"
+                      target="_blank"
+                      rel="noopener noreferrer"
+                    >
+                      <i className="fa-brands fa-instagram"></i>
+                    </a>
+                  </li>
+                  <li>
+                    <a
+                      href="https://www.facebook.com"
+                      target="_blank"
+                      rel="noopener noreferrer"
+                    >
+                      <i className="fa-brands fa-facebook"></i>
+                    </a>
+                  </li>
+                  <li>
+                    <a
+                      href="https://twitter.com"
+                      target="_blank"
+                      rel="noopener noreferrer"
+                    >
+                      <i className="fa-brands fa-twitter"></i>
+                    </a>
+                  </li>
+                  <li>
+                    <a
+                      href="https://www.youtube.com"
+                      target="_blank"
+                      rel="noopener noreferrer"
+                    >
+                      <i className="fa-brands fa-youtube"></i>
+                    </a>
+                  </li>
+                </ul>
+                <button
+                  onClick={() => signOut({ callbackUrl: "/login" })}
+                  className="font-semibold ms-5"
                 >
-                  <i className="fa-brands fa-instagram"></i>
-                </a>
+                  Logout
+                </button>
               </li>
-              <li>
-                <a
-                  href="https://www.facebook.com"
-                  target="_blank"
-                  rel="noopener noreferrer"
-                >
-                  <i className="fa-brands fa-facebook"></i>
-                </a>
-              </li>
-              <li>
-                <a
-                  href="https://twitter.com"
-                  target="_blank"
-                  rel="noopener noreferrer"
-                >
-                  <i className="fa-brands fa-twitter"></i>
-                </a>
-              </li>
-              <li>
-                <a
-                  href="https://www.youtube.com"
-                  target="_blank"
-                  rel="noopener noreferrer"
-                >
-                  <i className="fa-brands fa-youtube"></i>
-                </a>
-              </li>
-            </ul>
-          </div>
-
-          <div>
-            <ul className="flex flex-col md:flex-row text-center gap-2">
-        
-				{status ==="authenticated" && <>
-
- <div>
-            <button>Logout</button>
-          </div>
-
-</>}
-
-
-{status === "unauthenticated" && (<>
-<li>
-                <Link href="/login">Login</Link>
-             </li>
-              <li>
-                <Link href="/register">Register</Link>
-              </li></>)}
-
-            </ul>
-          </div>
-
-          <div>
-            <button className="cursor-pointer" onClick={()=>signOut({
-				callbackUrl:"/login"
-
-			})}>Logout</button>
-          </div>
+            )}
+          </ul>
         </div>
       </div>
     </div>
   );
 };
- 
+
 export default Navbar;

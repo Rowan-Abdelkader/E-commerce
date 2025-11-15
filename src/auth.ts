@@ -26,16 +26,14 @@ export const authOptions: NextAuthOptions = {
         });
 
 		    const payload = await response.json();
-			console.log("API respons:", payload);
-
-        console.log(payload);
+			console.log("API respons", payload);
 	
       if(payload.message==="success"){
 		const {id} = jwtDecode(payload.token) as {id:string};
 		return{
 			id:id,
 			user:payload.user,
-			token:payload.token
+			token:payload.token,
 		}
 	  }
 	  		throw new Error(payload.message || "failed to login");
@@ -51,7 +49,7 @@ export const authOptions: NextAuthOptions = {
 
 callbacks: {
 	async jwt({ token, user }) {
-
+//server side
 if (user) {
 	token.user=user?.user;
 	token.token=user?.token;
@@ -59,6 +57,8 @@ if (user) {
 
 		return token
 	},
+
+	//client side
 	async session({ session, token }) {
 		if (token) {
 			session.user = token.user;

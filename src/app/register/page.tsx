@@ -1,19 +1,27 @@
 "use client";
-import React from "react";
+import React, { useState } from "react";
 import { useForm } from "react-hook-form";
-import {Form,FormField, FormItem, FormLabel, FormControl, FormDescription, FormMessage,} from "@/components/ui/form";
-import { Input } from "@/components/ui/input";
-import { Button } from "@/components/ui/button";
+import {
+  Form,
+  FormField,
+  FormItem,
+  FormLabel,
+  FormControl,
+  FormDescription,
+  FormMessage,
+} from "@/_components/ui/form";
+import { Input } from "@/_components/ui/input";
+import { Button } from "@/_components/ui/button";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { registerSchema, RegisterSchemaType } from "@/schema/register.schema";
 import axios from "axios";
-import { toast } from "sonner"
-import { CheckCircle , XCircle } from "lucide-react";
+import { toast } from "sonner";
+import { CheckCircle, XCircle } from "lucide-react";
 import { useRouter } from "next/navigation";
 import { RegisterFormValues } from "@/types/product.t";
 const Register = () => {
-
-const router = useRouter();
+  const router = useRouter();
+  const [isLoading, setIsLoading] = useState(false); 
 
   const form = useForm<RegisterSchemaType>({
     defaultValues: {
@@ -25,26 +33,31 @@ const router = useRouter();
     },
 
     resolver: zodResolver(registerSchema),
-	mode: "onTouched",
+    mode: "onTouched",
   });
 
   async function handleRegister(values: RegisterFormValues) {
     try {
-      const { data } = await axios.post("https://ecommerce.routemisr.com/api/v1/auth/signup", values);
+		  setIsLoading(true);
+      const { data } = await axios.post(
+        "https://ecommerce.routemisr.com/api/v1/auth/signup",
+        values
+      );
       console.log(data);
-	  toast.success("Event has been created.", {
-		position: "top-center",
-		icon: <CheckCircle className="text-green-500" />,
-		duration: 4000,
-	  });
-	  router.push('/login')
+      toast.success("Event has been created.", {
+        position: "top-center",
+        icon: <CheckCircle className="text-green-500" />,
+        duration: 4000,
+      });
+      router.push("/login");
     } catch (error) {
-		toast.error(error.response?.data?.message, {
-			position: "top-center",
-			icon: < XCircle  className="text-red-500" />,
-			duration: 4000,
-		  });
+      toast.error(error.response?.data?.message, {
+        position: "top-center",
+        icon: <XCircle className="text-red-500" />,
+        duration: 4000,
+      });
       console.log(error);
+	   setIsLoading(false);
     }
   }
 

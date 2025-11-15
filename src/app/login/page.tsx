@@ -1,5 +1,5 @@
 "use client";
-import React from "react";
+import React, { useState } from "react";
 import { useForm } from "react-hook-form";
 import {
   Form,
@@ -9,9 +9,9 @@ import {
   FormControl,
   FormDescription,
   FormMessage,
-} from "@/components/ui/form";
-import { Input } from "@/components/ui/input";
-import { Button } from "@/components/ui/button";
+} from "@/_components/ui/form";
+import { Input } from "@/_components/ui/input";
+import { Button } from "@/_components/ui/button";
 import { zodResolver } from "@hookform/resolvers/zod";
 import axios from "axios";
 import { toast } from "sonner";
@@ -23,6 +23,8 @@ import { signIn } from "next-auth/react";
 
 const Login = () => {
   const router = useRouter();
+    const [isLoading, setIsLoading] = useState(false); 
+
 
   const form = useForm<LoginSchemaType>({
     defaultValues: {
@@ -35,53 +37,59 @@ const Login = () => {
   });
 
   async function handleLogin(values: LoginSchemaType) {
-    // try {
-    //   const { data } = await axios.post(
-    //     "https://ecommerce.routemisr.com/api/v1/auth/signin",
-    //     values
-    //   );
-    //   console.log(data);
-    //   toast.success("Event has been created.", {
-    //     position: "top-center",
-    //     icon: <CheckCircle className="text-green-500" />,
-    //     duration: 4000,
-    //   });
+    try {
+		 setIsLoading(true);
+      const { data } = await axios.post(
+        "https://ecommerce.routemisr.com/api/v1/auth/signin",
+        values
+      );
+	      console.log("Token:", data.token);
+    console.log("User ID:", data.user._id);
 
-    //   router.push("/");
-    // } catch (error) {
-    //   toast.error(error.response?.data?.message, {
-    //     position: "top-center",
-    //     icon: <XCircle className="text-red-500" />,
-    //     duration: 4000,
-    //   });
-    //   console.log(error);
-    // }
-	const res = await signIn("credentials", {
-		email: values.email,
-		password: values.password,
-		redirect: false,
-		callbackUrl: "/"
-	})
-	console.log(res);
-  
+      console.log(data);
+      toast.success("Event has been created.", {
+        position: "top-center",
+        icon: <CheckCircle className="text-green-500" />,
+        duration: 4000,
+      });
 
-if(res?.ok){
-	  toast.success("login success", {
-     position: "top-center",
-         icon: <CheckCircle className="text-green-500" />,
-         duration: 4000,
-       })
-	   	   window.location.href = res.url || "/"
+      router.push("/");
+    } catch (error) {
+      toast.error(error.response?.data?.message, {
+        position: "top-center",
+        icon: <XCircle className="text-red-500" />,
+        duration: 4000,
+      });
+      console.log(error);
+	   setIsLoading(false);
+    }
+    const res = await signIn("credentials", {
+      email: values.email,
+      password: values.password,
+      redirect: false,
+      callbackUrl: "/",
+    });
+    console.log(res);
 
-		   }
-		else{
-		   toast.error(res?.error, {
-			   position: "top-center",
-			   icon: <XCircle className="text-red-500" />,
-			   duration: 4000,
-		   });
-	
-}
+    if (res?.ok) {
+      toast.success("login success", {
+        position: "top-center",
+        icon: <CheckCircle className="text-green-500" />,
+        duration: 2000,
+		
+      });
+
+ setTimeout(() => {
+    window.location.href = res.url || "/";
+  }, 2000);
+
+} else {
+      toast.error(res?.error, {
+        position: "top-center",
+        icon: <XCircle className="text-red-500" />,
+        duration: 4000,
+      });
+    }
   }
 
   return (
@@ -117,11 +125,13 @@ if(res?.ok){
                 </FormControl>
                 <FormDescription />
                 <FormMessage />
-              </FormItem> 
+              </FormItem>
             )}
           />
 
-          <Button className="w-full" type="submit">
+          <Button className="w-full" type="submit" disabled={isLoading}>
+				{isLoading  ? <i className='fa-solid fa-spinner fa-spin'></i> : " "}
+
             Login
           </Button>
         </form>

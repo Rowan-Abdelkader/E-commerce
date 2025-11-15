@@ -5,6 +5,9 @@ import Navbar from "./_components/Navbar/Navbar";
 import "./../../node_modules/@fortawesome/fontawesome-free/css/all.min.css";
 import { Toaster } from "sonner";
 import Providers from "@/types/Providers";
+import "@fortawesome/fontawesome-free/css/all.min.css";
+
+
 const geistSans = Geist({
   variable: "--font-geist-sans",
   subsets: ["latin"],
