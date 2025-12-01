@@ -1,5 +1,9 @@
 "use client";
+<<<<<<< HEAD
 import React, { useContext, useEffect, useState } from "react";
+=======
+import React, { useContext } from "react";
+>>>>>>> 2f5214098546bdb9e1e299307cc9aff62d26a148
 import { WishlistContext } from "@/Context/WishlistContext";
 import { Button } from "@/_components/ui/button";
 import Image from "next/image";
@@ -14,6 +18,7 @@ import { product } from "../../types/product.t";
 import AddBtnCart from "../AddBtnCart/AddBtnCart";
 
 const MyCards = ({ product }: { product: product }) => {
+<<<<<<< HEAD
  const { addToWishlist, removeFromWishlist, isInWishlist } = useContext(WishlistContext) 
   const [like, setLike] = useState(false);
 
@@ -30,6 +35,10 @@ const MyCards = ({ product }: { product: product }) => {
       await addToWishlist(product._id);
     }
   }
+=======
+  const { wishlist, toggleWishlist } = useContext(WishlistContext);
+  const isInWishlist = wishlist.includes(product.id);
+>>>>>>> 2f5214098546bdb9e1e299307cc9aff62d26a148
 
   return (
     <div className="w-full md:w-1/2 lg:w-1/3 xl:w-1/4 p-2">
@@ -56,16 +65,29 @@ const MyCards = ({ product }: { product: product }) => {
             <div className="flex justify-between w-full">
               <p>{product.price} EGP</p>
               <p>
+<<<<<<< HEAD
                 {product.ratingsAverage}
+=======
+                {product.ratingsAverage}{" "}
+>>>>>>> 2f5214098546bdb9e1e299307cc9aff62d26a148
                 <i className="fa-solid fa-star text-yellow-400"></i>
               </p>
             </div>
 
             <div className="flex justify-end w-full">
               <button
+<<<<<<< HEAD
                 onClick={toggleWishlist}
                 className={`text-2xl transition-all duration-300 ${
                   like
+=======
+                onClick={(e) => {
+                  e.preventDefault();
+                  toggleWishlist(product.id);
+                }}
+                className={`text-2xl transition-all duration-300 ${
+                  isInWishlist
+>>>>>>> 2f5214098546bdb9e1e299307cc9aff62d26a148
                     ? "text-red-500 scale-110"
                     : "text-gray-400 hover:text-red-400 hover:scale-110"
                 }`}

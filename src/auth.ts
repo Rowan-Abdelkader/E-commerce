@@ -15,7 +15,11 @@ export const authOptions: NextAuthOptions = {
       },
 	 
       authorize: async (credentials) => {
+<<<<<<< HEAD
 		//  try{
+=======
+		 try{
+>>>>>>> 2f5214098546bdb9e1e299307cc9aff62d26a148
         const response = await fetch(`${process.env.API}/auth/signin`, {
           method: "POST",
           body: JSON.stringify({
@@ -38,11 +42,19 @@ export const authOptions: NextAuthOptions = {
 	  }
 	  		throw new Error(payload.message || "failed to login");
 
+<<<<<<< HEAD
 		// }
 	// 	catch (err){
 	// 	console.log(err)
 	// 	return null;
 	// }
+=======
+		}
+		catch (err){
+		console.log(err)
+		return null;
+	}
+>>>>>>> 2f5214098546bdb9e1e299307cc9aff62d26a148
 }
     }),
   ],

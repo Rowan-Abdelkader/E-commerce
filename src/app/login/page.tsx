@@ -15,13 +15,20 @@ import { Button } from "@/_components/ui/button";
 import { zodResolver } from "@hookform/resolvers/zod";
 import axios from "axios";
 import { toast } from "sonner";
+<<<<<<< HEAD
 import { CheckCircle, Link, XCircle } from "lucide-react";
+=======
+import { CheckCircle, XCircle } from "lucide-react";
+>>>>>>> 2f5214098546bdb9e1e299307cc9aff62d26a148
 import { useRouter } from "next/navigation";
 import { LoginSchemaType } from "@/schema/login.schema";
 import { loginSchema } from "@/schema/login.schema";
 import { signIn } from "next-auth/react";
 
+<<<<<<< HEAD
 
+=======
+>>>>>>> 2f5214098546bdb9e1e299307cc9aff62d26a148
 const Login = () => {
   const router = useRouter();
     const [isLoading, setIsLoading] = useState(false); 
@@ -135,6 +142,7 @@ const Login = () => {
 
             Login
           </Button>
+<<<<<<< HEAD
 <a
   href="/forgetPassword"
   className="text-xl font-semibold text-black hover:text-green-600 transition-colors duration-300"
@@ -144,6 +152,8 @@ const Login = () => {
 
 
 
+=======
+>>>>>>> 2f5214098546bdb9e1e299307cc9aff62d26a148
         </form>
       </Form>
     </div>

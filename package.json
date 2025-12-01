@@ -18,6 +18,7 @@
     "clsx": "^2.1.1",
     "jwt-decode": "^4.0.0",
     "lucide-react": "^0.542.0",
+<<<<<<< HEAD
     "next": "^15.5.2",
     "next-auth": "^4.24.11",
     "next-themes": "^0.4.6",
@@ -26,11 +27,23 @@
     "react-hook-form": "^7.67.0",
     "react-spinners": "^0.17.0",
     "react-toastify": "^11.0.5",
+=======
+    "next": "15.5.2",
+    "next-auth": "^4.24.11",
+    "next-themes": "^0.4.6",
+    "react": "19.1.0",
+    "react-dom": "19.1.0",
+    "react-hook-form": "^7.62.0",
+>>>>>>> 2f5214098546bdb9e1e299307cc9aff62d26a148
     "sonner": "^2.0.7",
     "swiper": "^12.0.1",
     "tailwind-merge": "^3.3.1",
     "yup": "^1.7.0",
+<<<<<<< HEAD
     "zod": "^4.1.13"
+=======
+    "zod": "^4.1.9"
+>>>>>>> 2f5214098546bdb9e1e299307cc9aff62d26a148
   },
   "devDependencies": {
     "@eslint/eslintrc": "^3",

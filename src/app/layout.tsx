@@ -2,9 +2,16 @@ import type { Metadata } from "next";
 import { Geist, Geist_Mono } from "next/font/google";
 import "./globals.css";
 import Navbar from "./_components/Navbar/Navbar";
+<<<<<<< HEAD
  import "@fortawesome/fontawesome-free/css/all.min.css";
 import { Toaster } from "sonner";
 import Providers from "@/types/Providers";
+=======
+import "./../../node_modules/@fortawesome/fontawesome-free/css/all.min.css";
+import { Toaster } from "sonner";
+import Providers from "@/types/Providers";
+import "@fortawesome/fontawesome-free/css/all.min.css";
+>>>>>>> 2f5214098546bdb9e1e299307cc9aff62d26a148
 
 
 const geistSans = Geist({
