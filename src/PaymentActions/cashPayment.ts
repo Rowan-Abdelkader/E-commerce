@@ -1,17 +1,23 @@
 "use server"
-
 import { getMyToken } from "@/utilities/token";
-import axios from "axios";
 
-export async function cashPaymentAction(id:string,Values:object){
-const token = await getMyToken();
-if (!token){
-throw new Error("Login First");
-} 
-const{data}=await axios.post(`https://ecommerce.routemisr.com/api/v1/orders/${id}`,Values,{
-	headers:{
-		token:token
-	}
-})
-return data;
+export async function getUserWishlist() {
+  const token = await getMyToken();
+
+  if (!token) {
+    throw new Error('Login First');
+  }
+
+  const response = await fetch("https://ecommerce.routemisr.com/api/v1/wishlist", {
+    headers: {
+      token: token as string
+    }
+  });
+
+  if (!response.ok) {
+    throw new Error('Failed to fetch wishlist');
+  }
+
+  const data = await response.json();
+  return data;
 }

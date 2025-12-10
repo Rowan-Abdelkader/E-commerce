@@ -1,44 +1,28 @@
 import { getToken } from 'next-auth/jwt'
 import { NextResponse } from 'next/server'
 import { NextRequest } from 'next/server'
- 
-<<<<<<< HEAD
+
 export async function middleware(request: NextRequest) {
+  const token = await getToken({ req: request })
+  const { pathname } = request.nextUrl
 
-const token = await getToken({req:request})
-const {pathname} = request.nextUrl
-const authPage =["/login" , "/register"]
-const routes =["/" , "/brands" , "/categories" ,"/cart" ,"/proudectDetials", "/wishlist"]
-=======
-// This function can be marked `async` if using `await` inside
-export async function middleware(request: NextRequest) {
+  const authPage = ["/login", "/register", "/forgetPassword"]
+  const routes = ["/", "/brands", "/categories", "/cart", "/proudectDetials", "/wishlist"]
 
-const token = await getToken({req:request})
-//distructing pathname from req.url
-const {pathname} = request.nextUrl
-const authPage =["/login" , "/register"]
-const routes =["/" , "/brands" , "/categories" ,"/cart" ,"/proudectDetials" ]
->>>>>>> 2f5214098546bdb9e1e299307cc9aff62d26a148
+  // Redirect if not logged in and trying to access protected routes
+  if (!token && routes.includes(pathname)) {
+    return NextResponse.redirect(new URL('/login', request.url))
+  }
 
+  // Redirect if logged in and trying to access auth pages
+  if (token && authPage.includes(pathname)) {
+    return NextResponse.redirect(new URL('/', request.url))
+  }
 
-if(!token && routes.includes(pathname)){
-	return NextResponse.redirect(new URL('/login',request.url))
-}
-
-if (token && authPage.includes(pathname)){
-	return NextResponse.redirect(new URL('/', request.url))
-}
- 
   return NextResponse.next()
 }
-<<<<<<< HEAD
+
+// Config for middleware matcher
 export const config = {
-	//aly h7mihom
-  matcher: ["/" , "/brands" , "/categories" ,"/cart" ,"/proudectDetials" ,"/login" ,"/register", "/wishlist"],
-=======
-// See "Matching Paths" below to learn more
-export const config = {
-	//aly h7mihom
-  matcher: ["/" , "/brands" , "/categories" ,"/cart" ,"/proudectDetials" ,"/login" ,"/register"],
->>>>>>> 2f5214098546bdb9e1e299307cc9aff62d26a148
+  matcher: ["/", "/brands", "/categories", "/cart", "/proudectDetials", "/login", "/register", "/wishlist", "/forgetPassword"],
 }

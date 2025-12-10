@@ -2,6 +2,7 @@
 import { useEffect, useState } from "react";
 import getUserWishlist from "@/WishLiatActions/getUserWishlist";
 import MyCards from "@/_components/MyCards/MyCards";
+
 export default function WishlistPage() {
   const [wishlistProducts, setWishlistProducts] = useState([]);
   const [loading, setLoading] = useState(true);
@@ -9,9 +10,9 @@ export default function WishlistPage() {
   useEffect(() => {
     async function fetchWishlist() {
       try {
-          const data = await getUserWishlist();
+        const data = await getUserWishlist();
         console.log("Wishlist from server:", data);
-setWishlistProducts(data?.data || []);
+        setWishlistProducts(data?.data || []);
       } catch (error) {
         console.error("Error fetching products:", error);
       } finally {

@@ -5,6 +5,8 @@ import { removeProductFromWishlist } from "@/WishLiatActions/removeProudctFromWi
 import { getUserWishlist } from "@/WishLiatActions/getUserWishlist";
 import { toast } from "sonner";
 import { CheckCircleIcon } from "lucide-react";
+import { CheckCircleIcon } from 'lucide-react';
+
 
 export const WishlistContext = createContext({});
 
@@ -75,13 +77,12 @@ export function WishlistProvider({ children }: { children: ReactNode }) {
     }
   }
 
-<<<<<<< HEAD
+
   function isInWishlist(productId: string) {
     return wishlist.map(product => product._id).includes(productId);
   }
 
-=======
->>>>>>> 2f5214098546bdb9e1e299307cc9aff62d26a148
+
   return (
     <WishlistContext.Provider
       value={{
@@ -91,10 +92,7 @@ export function WishlistProvider({ children }: { children: ReactNode }) {
         addToWishlist,
         loading,
         wishlistCount,
-<<<<<<< HEAD
-        isInWishlist,
-=======
->>>>>>> 2f5214098546bdb9e1e299307cc9aff62d26a148
+
       }}
     >
       {children}

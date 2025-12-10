@@ -1,6 +1,7 @@
 import { NextAuthOptions } from "next-auth";
-import { jwtDecode } from "jwt-decode";
+import jwtDecode from "jwt-decode";
 import CredentialsProvider from "next-auth/providers/credentials";
+
 export const authOptions: NextAuthOptions = {
   pages: {
     signIn: "/login",
@@ -13,69 +14,51 @@ export const authOptions: NextAuthOptions = {
         email: { label: "Email", type: "email" },
         password: { label: "Password", type: "password" },
       },
-	 
       authorize: async (credentials) => {
-<<<<<<< HEAD
-		//  try{
-=======
-		 try{
->>>>>>> 2f5214098546bdb9e1e299307cc9aff62d26a148
-        const response = await fetch(`${process.env.API}/auth/signin`, {
-          method: "POST",
-          body: JSON.stringify({
-            email: credentials?.email,
-            password: credentials?.password,
-          }),
-	   headers: { "Content-Type": "application/json" },
-        });
+        try {
+          const response = await fetch(`${process.env.API}/auth/signin`, {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({
+              email: credentials?.email,
+              password: credentials?.password,
+            }),
+          });
 
-		    const payload = await response.json();
-			console.log("API respons", payload);
-	
-      if(payload.message==="success"){
-		const {id} = jwtDecode(payload.token) as {id:string};
-		return{
-			id:id,
-			user:payload.user,
-			token:payload.token,
-		}
-	  }
-	  		throw new Error(payload.message || "failed to login");
+          const payload = await response.json();
+          console.log("API response:", payload);
 
-<<<<<<< HEAD
-		// }
-	// 	catch (err){
-	// 	console.log(err)
-	// 	return null;
-	// }
-=======
-		}
-		catch (err){
-		console.log(err)
-		return null;
-	}
->>>>>>> 2f5214098546bdb9e1e299307cc9aff62d26a148
-}
+          if (payload.message === "success") {
+            const { id } = jwtDecode(payload.token) as { id: string };
+            return {
+              id: id,
+              user: payload.user,
+              token: payload.token,
+            };
+          }
+          throw new Error(payload.message || "Failed to login");
+        } catch (err) {
+          console.log(err);
+          return null;
+        }
+      },
     }),
   ],
 
-callbacks: {
-	async jwt({ token, user }) {
-//server side
-if (user) {
-	token.user=user?.user;
-	token.token=user?.token;
-}
+  callbacks: {
+    async jwt({ token, user }) {
+      if (user) {
+        token.user = user.user;
+        token.token = user.token;
+      }
+      return token;
+    },
 
-		return token
-	},
-
-	//client side
-	async session({ session, token }) {
-		if (token) {
-			session.user = token.user;
-		}
-		return session
-	}
-}
+    async session({ session, token }) {
+      if (token) {
+        session.user = token.user;
+      }
+      return session;
+    },
+  },
 };
